@@ -12,6 +12,7 @@ import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.dto.PasswordEditDTO;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
+import com.sky.exception.EmployeeNameExistException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.admin.EmployeeMapper;
 import com.sky.pojo.Employee;
@@ -68,5 +69,32 @@ public class EmployeeServiceImpl  implements EmployeeService {
     }
 
 
+    /**
+     * 新增员工
+     * @param employeeDTO
+     */
+    @Override
+    public void save(EmployeeDTO employeeDTO) {
 
+        Employee dbEmployee = employeeMapper.getByUsername(employeeDTO.getUsername());
+        if(dbEmployee != null){
+            throw  new EmployeeNameExistException(dbEmployee.getName()+"已存在");
+        }
+
+        Employee employee = new Employee();
+
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        employee.setStatus(StatusConstant.ENABLE);
+
+        employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.insert(employee);
+    }
 }
