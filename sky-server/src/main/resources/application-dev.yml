@@ -5,6 +5,6 @@ sky:
     port: 3306
     database: sky_take_out_new
     username: root
-    password: root
+    password: 123456
 
 
