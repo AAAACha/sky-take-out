@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,6 +20,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @EnableTransactionManagement //开启注解方式的事务管理
 @Slf4j
 @MapperScan(basePackages = "com.sky.mapper")
+@EnableAspectJAutoProxy
 public class SkyApplication {
 
 
