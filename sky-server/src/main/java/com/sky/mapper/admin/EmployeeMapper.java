@@ -33,4 +33,7 @@ public interface EmployeeMapper {
      * @return
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    @Update("update employee set status = #{status} where id = #{id}")
+    void startOrStop(Integer status, Long id);
 }
